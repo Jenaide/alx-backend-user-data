@@ -6,6 +6,7 @@ import os
 import re
 from typing import List
 import logging
+import mysql.connector
 
 
 patterns = {
@@ -35,6 +36,29 @@ def get_logger() -> logging.Logger:
     logger.propagate = False
     logger.addHandler(handler)
     return logger
+
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """
+    creates a connection the database
+    """
+    username = os.environ.get("PERSONAL_DATA_DB_USERNAME", "root")
+    password = os.environ.get("PERSONAL_DATA_DB_PASSWORD", "")
+    host = os.environ.get("PERSONAL_DATA_DB_HOST", "localhost")
+    db_name = os.environ.get("PERSONAL_DATA_DB_NAME", "")
+    if not db_name:
+        raise ValueError("PERSONAL_DATA_DB_NAME environment variable is not set")
+    try:
+        connection = mysql.connector.connect(
+                user=username,
+                password=password,
+                host=host,
+                database=db_name
+        )
+        return connection
+    except mysql.connector.Error as e:
+        return None
+
 
 
 class RedactingFormatter(logging.Formatter):
