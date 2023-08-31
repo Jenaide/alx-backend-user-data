@@ -24,10 +24,22 @@ def filter_datum(fields: List[str], redaction: str, message: str, separator: str
     return re.sub(extract(fields, separator), replace(redaction), message)
 
 
+def get_logger() -> logging.Logger:
+    """
+    function that creates a new log for user data
+    """
+    logger = logging.getLogger("user_data")
+    handler = logging.StreamHandler()
+    handler.setFormatter(RedactingFormatter(PII_FIELDS))
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+    logger.addHandler(handler)
+    return logger
+
 
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class
-        """
+    """
 
     REDACTION = "***"
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
