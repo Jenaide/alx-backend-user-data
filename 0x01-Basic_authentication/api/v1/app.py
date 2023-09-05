@@ -36,7 +36,7 @@ def unauthorized(error) -> str:
     """
     return jsonify({"error": "Unauthorized"}), 401
 
-@app.errorhandler(406)
+@app.errorhandler(403)
 def forbidden(error) -> str:
     """
     forbidden error handler
@@ -55,7 +55,7 @@ def authenication():
                 '/api/v1/unauthorized/',
                 '/api/v1/forbidden/',
         ]
-        if auth.require_path(request.path, excluded_path):
+        if auth.require_path(request.path, excluded_paths):
             auth_headers = auth.authorization_header(request)
             users = auth.current_user(request)
             if auth_headers is None:
