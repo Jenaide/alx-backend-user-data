@@ -42,3 +42,11 @@ class Auth:
         method that gets the user from request
         """
         return None
+
+    def session_cookie(self, request=None)- str:
+        """
+        a method to retrieve the value of cookie {SESSION_NAME}
+        """
+        if request is not None:
+            cookieName = os.getenv("SESSION_NAME")
+            return request.cookies.get(cookieName)
