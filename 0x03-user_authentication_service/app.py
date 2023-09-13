@@ -3,6 +3,7 @@
 A standard flask app with user authentication
 """
 from flask import Flask, jsonify, request, abort, redirect
+
 from auth import Auth
 
 
@@ -20,7 +21,7 @@ def home() -> str:
     return jsonify({"message": "Bienvenue"})
 
 @app.route("/users", methods=["POST"], strict_slashes=False)
-def user() -> str:
+def users() -> str:
     """
     flask user route with a POST method
     Returns:
@@ -30,7 +31,7 @@ def user() -> str:
     password = request.form.get("password")
     try:
         AUTH.register_user(email, password)
-        return jsonify({"email": email, "message": "user has been created"})
+        return jsonify({"email": email, "message": "user created"})
     except ValueError:
         return jsonify({"message": "email already registered"}), 400
 
