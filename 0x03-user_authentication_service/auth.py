@@ -92,8 +92,7 @@ class Auth:
         """
         a method to destroy a session
         """
-        try:
-            self._db.update_user(user_id, session_id=None)
-        except NoResultFound:
+        if user_id is None:
             return None
+        self._db.update_user(user_id, session_id=None)
 
