@@ -2,7 +2,7 @@
 """
 A standard flask app with user authentication
 """
-from flask import Flask, jsonify, request, abort, redirect
+from flask import Flask, jsonify, request, abort, redirect, make_response
 
 from auth import Auth
 
